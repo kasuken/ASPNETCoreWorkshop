@@ -46,31 +46,8 @@ namespace Backend
                         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     });
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo
-            //    {
-            //        Version = "v1.0",
-            //        Title = "Conference Planner API",
-            //        Description = "Conference Plan API",
-            //        TermsOfService = new Uri("https://example.com/terms"),
-            //        Contact = new OpenApiContact
-            //        {
-            //            Name = "Emanuele Bartolesi",
-            //            Email = string.Empty,
-            //            Url = new Uri("https://dev.to/kasuken"),
-            //        },
-            //        License = new OpenApiLicense
-            //        {
-            //            Name = "Use under LICX",
-            //            Url = new Uri("https://example.com/license"),
-            //        }
-            //    });
-
-            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //    c.IncludeXmlComments(xmlPath);
-            //});
+            services.AddHealthChecks()
+                    .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddSwaggerGen(options =>
             {
@@ -101,6 +78,7 @@ namespace Backend
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }
